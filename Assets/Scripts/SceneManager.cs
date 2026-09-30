@@ -1,6 +1,6 @@
+
 using UnityEngine;
-using Unity.VisualScripting;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 #region coder & project
 /// <summary>
@@ -12,22 +12,43 @@ using System.Collections;
 /// </summary>
 #endregion
 
-public class TraverseScreenScript : MonoBehaviour
+public class Scenemanager : MonoBehaviour
 {
-    public int sceneToLoad;
 
-  
+    [SerializeField] private Object Menu;
+    [SerializeField] private Object Level1;
+    [SerializeField] private Object Level2;
+    [SerializeField] private Object Level3;
 
+    public void onLevel1()
+    {
+        if (Level1 != null)
+        {
+          SceneManager.LoadScene(1);
+        }
+    }
 
+    public void onLevel2()
+    {
+        if (Level2 != null)
+        {
+            SceneManager.LoadScene(2);
+        }
+    }
 
-
-
-
-
-
-
-
-
-
+    public void onLevel3()
+    {
+        if (Level3 != null)
+        {
+            SceneManager.LoadScene(3);
+        }
+    }
+    public void onMenu()
+    {
+        if (Menu != null)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 }
 

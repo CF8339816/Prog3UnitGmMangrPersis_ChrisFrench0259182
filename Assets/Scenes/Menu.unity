@@ -546,6 +546,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3926792563824942956, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
   m_PrefabInstance: {fileID: 1140104256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1140104258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1826276773882632127, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
+  m_PrefabInstance: {fileID: 1140104256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1399269654
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399269655}
   - component: {fileID: 1399269656}
+  - component: {fileID: 1399269657}
   m_Layer: 0
   m_Name: gameManager
   m_TagString: Untagged
@@ -594,6 +606,20 @@ MonoBehaviour:
   Lev2: {}
   Lev3: {}
   Menu: {}
+--- !u!114 &1399269657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399269654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae6337aa67bea4841ab9771f0cfc4eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameExitManager
+  ExitDelay: 5
+  exitCountdownText: {fileID: 1140104258}
 --- !u!1 &1673723582
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2435609c0c16f84095315574031d01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TraverseScreenScript
-  sceneToLoad: 0
+  Menu: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  Level1: {fileID: 102900000, guid: a96e983694bce8b4db793de2a3985025, type: 3}
+  Level2: {fileID: 102900000, guid: f0e6d8f0139a29c43ac2c9050378e6ff, type: 3}
+  Level3: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
 --- !u!1 &1790107129
 GameObject:
   m_ObjectHideFlags: 0

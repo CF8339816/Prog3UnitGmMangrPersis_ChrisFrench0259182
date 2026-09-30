@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #region coder & project
 /// <summary>
 /// NSCC GAME2025 / 4086 / Game Programming III(B)/ Doucette,Matthew
@@ -18,17 +19,14 @@ public class ServiceHub : MonoBehaviour
 {
     public static ServiceHub Instance { get; private set; }
 
-
-    //[Header("System References")]
+   [Header("System References")]
   
-    //public SceneManager sceneManager;
+   public SceneManager sceneManager;
 
 
     private void Awake()
     {
-        #region Singleton Pattern
-
-
+    
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -38,7 +36,6 @@ public class ServiceHub : MonoBehaviour
             Instance = this;
         }
 
-        #endregion
     }
 
 }
