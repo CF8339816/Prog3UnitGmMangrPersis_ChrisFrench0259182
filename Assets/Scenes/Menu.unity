@@ -432,7 +432,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1790107131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1140104256
+--- !u!1001 &1220237307
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -528,10 +528,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4579574336010326490, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7932127283491599304, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -541,15 +537,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
---- !u!224 &1140104257 stripped
+--- !u!224 &1220237308 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3926792563824942956, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
-  m_PrefabInstance: {fileID: 1140104256}
+  m_PrefabInstance: {fileID: 1220237307}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1140104258 stripped
+--- !u!114 &1220237309 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1826276773882632127, guid: dba02ee3cfe984e4fbf829d00c372879, type: 3}
-  m_PrefabInstance: {fileID: 1140104256}
+  m_PrefabInstance: {fileID: 1220237307}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -619,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameExitManager
   ExitDelay: 5
-  exitCountdownText: {fileID: 1140104258}
+  exitCountdownText: {fileID: 1220237309}
 --- !u!1 &1673723582
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +711,7 @@ Transform:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1140104257}
+  - {fileID: 1220237308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

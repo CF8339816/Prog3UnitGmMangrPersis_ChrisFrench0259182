@@ -19,6 +19,16 @@ public class Scenemanager : MonoBehaviour
     [SerializeField] private Object Level1;
     [SerializeField] private Object Level2;
     [SerializeField] private Object Level3;
+    public static int sceneIndex;
+    public static int nextIndex;
+    public GameManager gameManager;
+    public void LoadLevelByIndex()
+    {
+        if (sceneIndex >= 0 && sceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(sceneIndex);
+        }    
+    }
 
     public void onLevel1()
     {
@@ -50,5 +60,21 @@ public class Scenemanager : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
+    public void onStart()
+    {
+        if (Level1 != null)
+        {
+            gameManager.onResetStats();
+            onLevel1();
+        }
+    }
+    public void onLoadNextLevel()
+    {
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        LoadLevelByIndex();
+    }
+
+
 }
 
