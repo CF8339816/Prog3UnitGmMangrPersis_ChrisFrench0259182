@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 #region coder & project
 /// <summary>
@@ -15,32 +14,42 @@ public class GameManager : MonoBehaviour
 {
     private GameExitManager gameExitManager;
     private ServiceHub serviceHub;
-    private GameManager gameManager;
     private Scenemanager sceneManager;
+    [Header("text output")]
     public TextMeshProUGUI textHealthText;
     public TextMeshProUGUI textInventoryAvaillabilityText;
+    [Header("sliders")]
     [SerializeField] private Slider HealthBar;
     [SerializeField] private Slider InventoryCapacity;
+    [Header("health")]
     public int HealthBarMax = 100;
     private int HealthBarMin = 0;
+    [SerializeField] public int healingDone= 12 ;
+    [SerializeField] public int DamageTaken= 21;
+    private int currentHealthPercentage;
+    private int healtBarOutput;
+    public float currentHealth;
+    [SerializeField] public float maxHealth;
+    [Header("inventory")]
     [SerializeField] public int InventoryBarMax = 24;
     private int InventoryBarMin = 0;
     public int InventoryslotsUsed = 0;
     private int InventorySpaceAvailable;
-    [SerializeField] public int healingDone= 12 ;
-    [SerializeField] public int DamageTaken= 21;
-    public int currentHealth;
-    private int currentHealthPercentage;
-    private int healtBarOutput;
-    [SerializeField] public int maxHealth;
-    public void Awake()//added to ensure level manager runs prior to event manager
+    public void Awake()
     {
-        gameManager= Object.FindFirstObjectByType<GameManager>();
-        serviceHub = Object.FindFirstObjectByType<ServiceHub>();
-        gameExitManager = Object.FindFirstObjectByType<GameExitManager>();
-        sceneManager = Object.FindFirstObjectByType<Scenemanager>();
-        sceneManager.onMenu();
-        onResetStats();
+        if (ServiceHub.Instance != null)//gets   or recieves Service Hub
+        {
+            serviceHub = ServiceHub.Instance;
+            sceneManager = serviceHub.customSceneManager;
+            gameExitManager = serviceHub.gameExitManager;
+        }
+        else// redundancies incase Service hub is Borked
+        {
+            serviceHub = Object.FindFirstObjectByType<ServiceHub>();
+            sceneManager = Object.FindFirstObjectByType<Scenemanager>();
+            gameExitManager = Object.FindFirstObjectByType<GameExitManager>();
+        }        
+        onResetStats(); // resets stats
     }
     private void Update()
     {
@@ -61,37 +70,35 @@ public class GameManager : MonoBehaviour
     }
     public void onTakeDamage()
     {
-        currentHealth = -DamageTaken;
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-        }
-        currentHealthPercentage =((currentHealth/ maxHealth)*100);
+        currentHealth -= DamageTaken;
+        if (currentHealth <= 0)  {   currentHealth = 0;  }
+        CalculateHealthPercentage();
     }
     public void onTakeHealing()
     {        
-        currentHealth = +healingDone;
-       if (currentHealth >= maxHealth)
-        {
-            currentHealth = maxHealth;
-        }   
-        currentHealthPercentage= ((currentHealth / maxHealth) * 100); 
+        currentHealth += healingDone;
+       if (currentHealth >= maxHealth)  {  currentHealth = maxHealth;   }
+        CalculateHealthPercentage(); 
+    }
+    public void CalculateHealthPercentage()
+    {
+        currentHealthPercentage = Mathf.RoundToInt((currentHealth / maxHealth) * 100);
     }
     public void onAddItem()
     {
-        InventoryslotsUsed++;
+        if (InventoryslotsUsed < InventoryBarMax) { InventoryslotsUsed++; }
     }
     public void onRemoveItem()
     {
-        InventoryslotsUsed--;
+        if (InventoryslotsUsed > 0) {   InventoryslotsUsed--;  }
     }
     public void onResetStats()
     {
         currentHealth = maxHealth;
         InventoryslotsUsed = 0;
-
-        HealthBar.value = healtBarOutput;
-        InventoryCapacity.value = InventoryslotsUsed;
+        CalculateHealthPercentage();
+        if (HealthBar != null) { HealthBar.value = currentHealthPercentage; }
+        if (InventoryCapacity != null) { InventoryCapacity.value = InventoryslotsUsed; }
     }
 }
 
