@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using TMPro;
-
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 #region coder & project
 /// <summary>
 /// NSCC GAME2025 / 4086 / Game Programming III(B)/ Doucette,Matthew
@@ -25,8 +26,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textHealthText;
     public TextMeshProUGUI textInventoryAvaillabilityText;
 
+    [SerializeField] private Slider HealthBar;
+    [SerializeField] private Slider InventoryCapacity;
 
-  [SerializeField] public Scene Lev1;
+    [SerializeField] public Scene Lev1;
     [SerializeField] public Scene Lev2;
     [SerializeField] public Scene Lev3;
     [SerializeField] public Scene Menu;
@@ -68,13 +71,14 @@ public class GameManager : MonoBehaviour
     public void UpdateBagSpace()
     {
         InventorySpaceAvailable = InventoryBarMax - InventoryslotsUsed;
+        InventoryCapacity.value = InventoryslotsUsed;
         textInventoryAvaillabilityText.text = "Slots available" + InventorySpaceAvailable.ToString() + "\nInventory used: " + InventoryslotsUsed.ToString() + "/" + InventoryBarMax.ToString();
     }
 
     public void UpdateHealthBar()
     {
         healtBarOutput = currentHealthPercentage;
-
+        HealthBar.value = healtBarOutput;
         textHealthText.text = "Health %: " + currentHealthPercentage.ToString() + "\nHealth: " + currentHealth.ToString()  +"/" + maxHealth.ToString();
 
     }
@@ -115,6 +119,9 @@ public class GameManager : MonoBehaviour
     {
         currentHealth = maxHealth;
         InventoryslotsUsed = 0;
+
+        HealthBar.value = healtBarOutput;
+        InventoryCapacity.value = InventoryslotsUsed;
     }
 
 
