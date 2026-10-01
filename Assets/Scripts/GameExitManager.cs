@@ -1,9 +1,6 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-
 #region coder & project
 /// <summary>
 /// NSCC GAME2025 / 4086 / Game Programming III(B)/ Doucette,Matthew
@@ -13,37 +10,35 @@ using UnityEngine.UI;
 /// 
 /// </summary>
 #endregion
-
 public class GameExitManager : MonoBehaviour
 {
+    public static GameExitManager Instance { get; private set; }
     public float ExitDelay = 5f;
     public TextMeshProUGUI exitCountdownText;
     private float Countdown;
     private bool isExiting = false;
- 
-
-    void Awake()
+     void Awake()
     {
-        Countdown = ExitDelay;
-        if (exitCountdownText != null)
+        if (Instance != null && Instance != this)
         {
-            exitCountdownText.text = "";
+            Destroy(gameObject);
+            return;
         }
-       
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // keeps script accessable accross scene changes
+        ResetCountdown();                    
     }
-   
-
+    private void Update()
+    {
+        if (exitCountdownText == null)   {   exitCountdownText = GameObject.Find("exitCountdownText")?.GetComponent<TextMeshProUGUI>();   }
+    }
     public void Ongameexit()
     {
         if (!isExiting)
         {
-
             isExiting = true;
             StartCoroutine(StartExitCountdown());
-
         }
-
-
     }
     public IEnumerator StartExitCountdown()
     {
@@ -51,24 +46,25 @@ public class GameExitManager : MonoBehaviour
         {
             exitCountdownText.text = "Game Exit in: " + Mathf.Ceil(Countdown).ToString();// displays the countdown output in an always rounded up to whole int
             yield return null;
-
             Countdown -= Time.deltaTime;
         }
-
         exitCountdownText.text = "Exiting...";
         ExitGame();
     }
-
-
-
+    private void ResetCountdown()
+    {
+        Countdown = ExitDelay;
+        if (exitCountdownText != null)
+        {
+            exitCountdownText.text = "";
+        }
+    }
     public void ExitGame()
     {
         Debug.Log("Exiting Game...");
-
-        // Works in a built application
+         // Works in a built application
         Application.Quit();
-
-        // Works inside the Unity Editor
+         // Works inside the Unity Editor
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif

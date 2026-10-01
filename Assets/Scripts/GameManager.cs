@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 #region coder & project
 /// <summary>
@@ -12,10 +13,12 @@ using UnityEngine.UI;
 #endregion
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     private GameExitManager gameExitManager;
     private ServiceHub serviceHub;
     private Scenemanager sceneManager;
     [Header("text output")]
+    public TextMeshProUGUI textCurrentLevel;
     public TextMeshProUGUI textHealthText;
     public TextMeshProUGUI textInventoryAvaillabilityText;
     [Header("sliders")]
@@ -34,27 +37,44 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int InventoryBarMax = 24;
     private int InventoryBarMin = 0;
     public int InventoryslotsUsed = 0;
-    private int InventorySpaceAvailable;
+    private int InventorySpaceAvailable;      
     public void Awake()
     {
-        if (ServiceHub.Instance != null)//gets   or recieves Service Hub
+        if (Instance != null && Instance != this)
         {
-            serviceHub = ServiceHub.Instance;
-            sceneManager = serviceHub.customSceneManager;
-            gameExitManager = serviceHub.gameExitManager;
+            Destroy(gameObject);
+            return;
         }
-        else// redundancies incase Service hub is Borked
-        {
-            serviceHub = Object.FindFirstObjectByType<ServiceHub>();
-            sceneManager = Object.FindFirstObjectByType<Scenemanager>();
-            gameExitManager = Object.FindFirstObjectByType<GameExitManager>();
-        }        
-        onResetStats(); // resets stats
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // maintains data              
+        serviceHub = Object.FindFirstObjectByType<ServiceHub>();
+        sceneManager = Object.FindFirstObjectByType<Scenemanager>();
+        gameExitManager = Object.FindFirstObjectByType<GameExitManager>();
+        onResetStats();
     }
     private void Update()
     {
+        FindUIElementsInNewScene(); 
         UpdateBagSpace();
         UpdateHealthBar();
+        UpdateCurrentLevelOutput();
+    }
+    private void FindUIElementsInNewScene()// finds the ui entries after destroyed to re-valuate them
+    {        
+        if (textHealthText == null) textHealthText = GameObject.Find("HealthText")?.GetComponent<TextMeshProUGUI>();
+        if (textInventoryAvaillabilityText == null) textInventoryAvaillabilityText = GameObject.Find("InventoryAvaillabilityText")?.GetComponent<TextMeshProUGUI>();
+        if (HealthBar == null) HealthBar = GameObject.Find("HealthBar")?.GetComponent<Slider>();
+        if (InventoryCapacity == null) InventoryCapacity = GameObject.Find("InventoryCapacity")?.GetComponent<Slider>();
+        if (textCurrentLevel == null) textCurrentLevel = GameObject.Find("CurrentLevel")?.GetComponent<TextMeshProUGUI>();
+
+    }
+    public void UpdateCurrentLevelOutput()
+    {
+        if (textCurrentLevel != null)
+        {
+            string CurrentScene = SceneManager.GetActiveScene().name;
+            textCurrentLevel.text = "Current Level Loaded: " +CurrentScene;
+        }
     }
     public void UpdateBagSpace()
     {

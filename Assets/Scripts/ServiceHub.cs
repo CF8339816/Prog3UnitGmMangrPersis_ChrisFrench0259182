@@ -1,5 +1,4 @@
 using UnityEngine;
-
 #region coder & project
 /// <summary>
 /// NSCC GAME2025 / 4086 / Game Programming III(B)/ Doucette,Matthew
@@ -23,7 +22,6 @@ public class ServiceHub : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject); //maintaains gameobject accross scenes
-        
         if (customSceneManager == null) customSceneManager = GetComponent<Scenemanager>();
         if (gameManager == null) gameManager = GetComponent<GameManager>();
         if (gameExitManager == null) gameExitManager = GetComponent<GameExitManager>();
