@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 #region coder & project
 /// <summary>
 /// NSCC GAME2025 / 4086 / Game Programming III(B)/ Doucette,Matthew
@@ -16,24 +11,16 @@ using static UnityEngine.Rendering.DebugUI;
 /// 
 /// </summary>
 #endregion
-
 public class GameManager : MonoBehaviour
 {
     private GameExitManager gameExitManager;
     private ServiceHub serviceHub;
     private GameManager gameManager;
-    private SceneManager sceneManager;
+    private Scenemanager sceneManager;
     public TextMeshProUGUI textHealthText;
     public TextMeshProUGUI textInventoryAvaillabilityText;
-
     [SerializeField] private Slider HealthBar;
     [SerializeField] private Slider InventoryCapacity;
-
-    [SerializeField] public Scene Lev1;
-    [SerializeField] public Scene Lev2;
-    [SerializeField] public Scene Lev3;
-    [SerializeField] public Scene Menu;
-
     public int HealthBarMax = 100;
     private int HealthBarMin = 0;
     [SerializeField] public int InventoryBarMax = 24;
@@ -46,27 +33,19 @@ public class GameManager : MonoBehaviour
     private int currentHealthPercentage;
     private int healtBarOutput;
     [SerializeField] public int maxHealth;
-
-
     public void Awake()//added to ensure level manager runs prior to event manager
     {
         gameManager= Object.FindFirstObjectByType<GameManager>();
         serviceHub = Object.FindFirstObjectByType<ServiceHub>();
         gameExitManager = Object.FindFirstObjectByType<GameExitManager>();
-      //  sceneManager = Object.FindFirstObjectByType<SceneManager>();
-
-        if (Menu != null)
-        {
-            SceneManager.LoadScene(0);
-        }
-
+        sceneManager = Object.FindFirstObjectByType<Scenemanager>();
+        sceneManager.onMenu();
         onResetStats();
     }
     private void Update()
     {
         UpdateBagSpace();
         UpdateHealthBar();
-
     }
     public void UpdateBagSpace()
     {
@@ -74,15 +53,12 @@ public class GameManager : MonoBehaviour
         InventoryCapacity.value = InventoryslotsUsed;
         textInventoryAvaillabilityText.text = "Slots available" + InventorySpaceAvailable.ToString() + "\nInventory used: " + InventoryslotsUsed.ToString() + "/" + InventoryBarMax.ToString();
     }
-
     public void UpdateHealthBar()
     {
         healtBarOutput = currentHealthPercentage;
         HealthBar.value = healtBarOutput;
         textHealthText.text = "Health %: " + currentHealthPercentage.ToString() + "\nHealth: " + currentHealth.ToString()  +"/" + maxHealth.ToString();
-
     }
-
     public void onTakeDamage()
     {
         currentHealth = -DamageTaken;
@@ -92,7 +68,6 @@ public class GameManager : MonoBehaviour
         }
         currentHealthPercentage =((currentHealth/ maxHealth)*100);
     }
-   
     public void onTakeHealing()
     {        
         currentHealth = +healingDone;
@@ -102,19 +77,14 @@ public class GameManager : MonoBehaviour
         }   
         currentHealthPercentage= ((currentHealth / maxHealth) * 100); 
     }
-
-
     public void onAddItem()
     {
         InventoryslotsUsed++;
     }
-
     public void onRemoveItem()
     {
         InventoryslotsUsed--;
     }
-
-
     public void onResetStats()
     {
         currentHealth = maxHealth;
@@ -123,10 +93,6 @@ public class GameManager : MonoBehaviour
         HealthBar.value = healtBarOutput;
         InventoryCapacity.value = InventoryslotsUsed;
     }
-
-
-
-
 }
 
 
